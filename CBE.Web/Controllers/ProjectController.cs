@@ -14,6 +14,7 @@ namespace CBE.Web.Controllers
     {
         private const int OnceOffProjectDurationId = 1;
         private const int OngoingProjectDurationId = 2;
+        private static readonly DateTime OngoingProjectEndDatePlaceholder = new(9999, 12, 31);
 
         private readonly IRequestSet _requestSet;
         private readonly IAppSession _appSession;
@@ -228,7 +229,7 @@ namespace CBE.Web.Controllers
             }
             else if (model.ProjectDurationId == OngoingProjectDurationId)
             {
-                model.EndDate = null;
+                model.EndDate = OngoingProjectEndDatePlaceholder;
             }
         }
 
