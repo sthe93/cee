@@ -1,4 +1,6 @@
-﻿namespace CBE.Web.Models
+﻿using System.Text.Json.Serialization;
+
+namespace CBE.Web.Models
 {
     public class CreateGeneralProjectModel
     {
@@ -10,6 +12,7 @@
         public string ProjectReference { get; set; } = null!;
         public string Title { get; set; } = null!;
         public DateTime StartDate { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public DateTime? EndDate { get; set; }
         public string ProjectAddress { get; set; } = null!;
         public int? NumberOfUjstaffInvolved { get; set; }

@@ -780,7 +780,12 @@
         formData.append("SustainableDevelopmentGoalId", $("#SustainableDevelopmentGoals option:selected").val());
         formData.append("ProjectAddress", $("#ProjectActualLocationName").val());
         formData.append("StartDate", $("#ProjectStartDate").val());
-        formData.append("EndDate", $("#ProjectEndDate").val());
+        if (projectDurationValue == "1") {
+            formData.append("EndDate", $("#ProjectEndDate").val());
+        }
+        else {
+            $("#ProjectEndDate").val("");
+        }
         formData.append("ProjectTypeId", $("#CEProjectType option:selected").val());
         formData.append("LocationScopeId", $("#ProjectLocation option:selected").val());
         formData.append("ProjectEffortId", $("#IsProjectIndividualOrGroupEffort option:selected").val());
@@ -838,7 +843,9 @@ function onProjectEffortChange(e) {
 }
 
 function onProjectDurationChange(e) {
-    if ($("#ProjectDuration option:selected").val() == 1) {
+    let projectDurationValue = $("#ProjectDuration option:selected").val();
+
+    if (projectDurationValue == 1) {
         $('.dvNumberofyears').hide();
         document.getElementById("numberofyears").value = "";
 
@@ -926,7 +933,7 @@ function GetProjectDetails() {
                 setTimeout(function () {
                     document.getElementById("CBEProjectLogo").src = response.projectLogoBase64;
                     document.getElementById('ProjectStartDate').value = cleanIsoDateTime(response.startDate).split(' ')[0];
-                    document.getElementById('ProjectEndDate').value = cleanIsoDateTime(response.endDate).split(' ')[0];
+                    document.getElementById('ProjectEndDate').value = response.endDate ? cleanIsoDateTime(response.endDate).split(' ')[0] : '';
                     document.getElementById('titleOftheProject').value = response.title;
                     document.getElementById('ProjectActualLocationName').value = response.projectAddress;
 
@@ -947,6 +954,7 @@ function GetProjectDetails() {
                     document.getElementById('IsProjectIndividualOrGroupEffort').value = response.projectEffortId;
                     document.getElementById('DepartmentResponsibleForProject').value = response.departmentResponsibleId;
                     document.getElementById('ProjectDuration').value = response.projectDurationId;
+                    onProjectDurationChange();
 
 
                     document.getElementById('communityEngagementUnit').value = response.communityEngagementUnitId;

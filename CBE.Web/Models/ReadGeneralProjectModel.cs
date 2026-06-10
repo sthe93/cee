@@ -10,7 +10,7 @@
         public string ProjectReference { get; set; } = null!;
         public string Title { get; set; } = null!;
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ProjectAddress { get; set; } = null!;
         public string ContactNumbr { get; set; } = null!;
         public int? NumberOfUjstaffInvolved { get; set; }
