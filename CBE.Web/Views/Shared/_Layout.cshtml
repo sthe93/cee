@@ -1,0 +1,285 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>UJCE</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="icon" href="~/lib/assets/img/logo.png" type="image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <script src="~/lib/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="~/lib/assets/js/core/jquery.3.2.1.min.js"></script>
+
+    <script>
+        WebFont.load({
+            google: { "families": ["Lato:300,400,700,900"] },
+            custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../lib/assets/css/fonts.min.css'] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <link rel="stylesheet" href="~/lib/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/assets/css/atlantis.css">
+    <link href="~/css/assets/styles.css" rel="stylesheet" />
+    <link href="~/css/assets/prism.css" rel="stylesheet" />
+    <link href="~/js/dist/jqueryuidate/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/newstepper/stepper.css" />
+       <style>
+        .vertical-alignment-helper {
+            display: table;
+            height: 100%;
+            width: 100%;
+            pointer-events: none; /* This makes sure that we can still click outside of the modal to close it */
+        }
+
+        .vertical-align-center {
+            /* To center vertically */
+            display: table-cell;
+            vertical-align: middle;
+            pointer-events: none;
+        }
+
+        .modal-content-pinner {
+            /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+            width: inherit;
+            max-width: inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+            height: inherit;
+            /* To center horizontally */
+            margin: 0 auto;
+            pointer-events: all;
+        }
+
+        .tippy-box[data-theme~='transparent-theme'] {
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            backdrop-filter: blur(10px) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+            -webkit-backdrop-filter: blur(10px) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+            border-radius: 12px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .tippy-box[data-theme~='transparent-theme'] > .tippy-arrow {
+            color: rgba(0, 0, 0, 0.35);
+        }
+    </style>
+    <link href="~/css/global.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main-header">
+            <div class="logo-header ujbackgroundcolor">
+                <a class="logo">
+                    <img src="~/lib/assets/img/logo.png" alt="navbar brand" class="navbar-brand">
+                </a>
+                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <i class="icon-menu"></i>
+                    </span>
+                </button>
+                <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="icon-menu"></i>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="navbar navbar-header navbar-expand-lg ujbackgroundcolor">
+
+
+                <div class="container-fluid">
+                    <li class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                        <a class="dropdown-toggle profile-pic align-items-center" data-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar-sm">
+                               @* <img src="https://dev.soldev.uj.ac.za/NewCBEWeb/img/profile.png" alt="..." class="avatar-img rounded-circle">*@
+                                <img src="../images/profile.png" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user animated fadeIn">
+                            <li>
+                                <br />
+                                <div class="user-box">
+                                    <div class="avatar-lg"><img src="../images/profile.png" alt="image profile" class="avatar-img rounded"></div>
+                                    <div class="u-text">
+                                        <h4>@_appSession.Username </h4>
+                                        <p class="text-muted">@_appSession.RoleName</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action( "Logout","Account")">Logout</a>
+                            </li>
+                        </ul>
+                        <p style="color:white"> &nbsp; @_appSession.FullName (@_appSession.RoleName)</p>
+
+                    </li>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar sidebar-style-2">
+            <div class="sidebar-background"></div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                <div class="sidebar-content">
+                    <ul class="nav nav-info">
+                        <li class="nav-item" style="background-color:black;color:white;">
+                            <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                                <i class="fas fa-home"></i>
+                                <p> Projects</p>
+                            </a>
+                            <div class="collapse" id="dashboard">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="@Url.Action("Dashboard", "Dashboard")">
+                                            <span class="sub-item">Project Management</span>
+                                        </a>
+                                    </li>
+@*
+                                    <li>
+                                        <a href="@Url.Action("Dashboard", "Dashboard")">
+                                            <span class="sub-item"> dashboard</span>
+                                        </a>
+                                    </li>*@
+
+                                </ul>
+                            </div>
+                        </li>
+                        <input type="hidden" value="@_appSession.CanAddUser" id="CanAddUser" />
+                        @if (_appSession.CanAddUser == "YES")
+                        {
+                            <li class="nav-item" style="background-color:black;">
+                                <a data-toggle="collapse" href="#base">
+                                    <i class="fas fa-angle-double-down"></i>
+                                    <p>Users</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="base">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="@Url.Action("Index", "User")">
+                                                <span class="sub-item">User Management</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-panel">
+            <div class="content content-documentation ">
+                <div class="container-fluid">
+                    <div class="card card-documentation">
+                        <div class="card-header panelheadingImage py-1">
+                            <h2 class="text-white pb-2 fw-bold"><p style="color:white;font-size: xx-large;">UJ Community Engagement Reporting System</p></h2>
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul class="nav align-content-lg-center">
+                            <li class="nav-item">
+
+                            </li>
+                            <li class="nav-item">
+
+                            </li>
+                            <li class="nav-item ">
+                                @System.DateTime.Now.Year <a href="https://www.uj.ac.za/">University of Johannesburg</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright ml-auto">
+                       @* <img src="https://dev.soldev.uj.ac.za/NewCBEWeb/img/logo.png" alt="navbar brand" class="navbar-brand">*@
+                        <img src="../images/Logo.png" alt="navbar brand" class="navbar-brand">
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="~/lib/assets/js/core/popper.min.js"></script>
+    <script src="~/lib/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/lib/assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="~/lib/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="~/lib/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+   
+    <script src="~/lib/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/lib/assets/js/atlantis.min.js"></script>
+    <script src="assets/prism.js"></script>
+
+    <script src="~/js/dist/common/config.js"></script>
+    <script src="~/lib/assets/prism-normalize-whitespace.min.js"></script>
+
+    <script src="~/js/dist/jqueryuidate/jquery-ui.js"></script>
+    <script src="~/js/dist/jqueryuidate/datepicker.js?v=1"></script>
+    <script src="~/js/dist/common/wordsvalidation.js"></script>
+    <script src="~/js/dist/common/notify.js" v="1"></script>
+    <script src="~/js/dist/common/isodatetimehandler.js"></script>
+    <script src="~/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+
+    <script src="~/vendor/datatables/media/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/dist/common/pagination.js"></script>
+
+  
+    <script src="~/css/newstepper/Stepper.js?v=2"></script>
+    <script src="~/lib/tooltip/popper.min.js"></script>
+    <script src="~/lib/tooltip/tippy-bundle.umd.min.js"></script>
+    <script src="~/js/dist/common/tooltip.js"></script>
+
+    <script type="text/javascript">
+       
+        tippy.delegate('body', {
+            target: '[data-tippy-content]',
+            theme: 'transparent-theme',
+            animation: 'scale',
+            delay: [100, 50]
+        });
+
+        // handle links with href started with '#' only
+        $(document).on('click', 'a[href^="#"]', function (e) {
+            // target element id
+            var id = $(this).attr('href');
+
+
+            // target element
+            var $id = $(id);
+            if ($id.length === 0) {
+                return;
+            }
+
+            // prevent standard hash navigation (avoid blinking in IE)
+            e.preventDefault();
+
+            // top position relative to the document
+            var pos = $id.offset().top - 80;
+
+            // animated top scrolling
+            $('body, html').animate({ scrollTop: pos });
+        });
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].forEach(el => new bootstrap.Tooltip(el));
+    </script>
+
+    <partial name="_myProfile" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,187 @@
+/*--------------------------------------------------------
+[ Fonts ]
+--------------------------------------------------------*/
+/*@font-face {
+    font-family: Ubuntu-Regular;
+    src: url('../fonts/ubuntu/Ubuntu-Regular.ttf');
+}
+
+@font-face {
+    font-family: Ubuntu-Bold;
+    src: url('../fonts/ubuntu/Ubuntu-Bold.ttf');
+}
+
+@font-face {
+    font-family: JosefinSans-Bold;
+    src: url('../fonts/JosefinSans/JosefinSans-Bold.ttf');
+}*/
+
+
+/*--------------------------------------------------------
+[ Reset / Base ]
+--------------------------------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Ubuntu-Regular, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #666;
+    transition: 0.4s;
+}
+
+    a:hover {
+        color: #1b3815;
+    }
+
+input, textarea, button {
+    outline: none;
+    border: none;
+}
+
+    button:hover {
+        cursor: pointer;
+    }
+
+ul, li {
+    list-style: none;
+}
+
+/*--------------------------------------------------------
+[ Container / Background ]
+--------------------------------------------------------*/
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-login100 {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/ujce/images/newwallpaper.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.wrap-login100 {
+    width: 500px;
+    background: #ec5800;
+    padding: 30px 40px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.1);
+}
+
+/*--------------------------------------------------------
+[ Title / Logo ]
+--------------------------------------------------------*/
+.login100-form-title {
+    font-family: JosefinSans-Bold;
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/*--------------------------------------------------------
+[ Cookie Notice ]
+--------------------------------------------------------*/
+#cookieNotice {
+    display: block;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    padding: 12px 20px;
+    margin: 0 auto 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    border-radius: 6px;
+}
+
+/*--------------------------------------------------------
+[ Inputs ]
+--------------------------------------------------------*/
+.wrap-input100 {
+    width: 100%;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.input100 {
+    font-family: Ubuntu-Bold;
+    font-size: 15px;
+    color: #1b3815 !important; /* force text color */
+    line-height: 1.2;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 55px;
+    background: #ebebeb; /* light grey background */
+    border-radius: 27px;
+    padding: 0 35px;
+    caret-color: #1b3815; /* make the cursor visible */
+}
+
+.input100::placeholder {
+    color: #1b3815 !important; /* force placeholder color */
+    opacity: 1;
+}
+
+.input100:focus {
+    outline: none;
+    border-color: transparent;
+    background: #ebebeb; /* keep background consistent */
+}
+put100:focus + .focus-input100 {
+    width: calc(100% + 20px);
+}
+
+/*--------------------------------------------------------
+[ Button ]
+--------------------------------------------------------*/
+.container-login100-form-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login100-form-btn {
+    width: 100%;
+    height: 50px;
+    background-color: #1b3815;
+    border-radius: 25px;
+    font-family: Ubuntu-Bold;
+    font-size: 15px;
+    color: #fff;
+    text-transform: uppercase;
+    transition: all 0.4s;
+}
+
+    .login100-form-btn:hover {
+        background-color: #166214;
+    }
+
+/*--------------------------------------------------------
+[ Responsive ]
+--------------------------------------------------------*/
+@media (max-width: 576px) {
+    .wrap-login100 {
+        width: 90%;
+        padding: 20px;
+    }
+
+    #cookieNotice {
+        max-width: 90%;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+}

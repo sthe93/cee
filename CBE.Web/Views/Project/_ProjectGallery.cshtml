@@ -1,0 +1,83 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+<style type="text/css">
+    .closeIcon {
+        position: absolute;     
+        margin-left: 5px;
+        margin-top: -11px;
+        cursor: pointer;
+        background-color: white;
+        z-index:1;
+        color: #f26522;
+     }
+
+    #uploadImages:hover{
+        text-decoration:none;
+    }
+
+    #confirmModal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #confirmModal .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #f26522;
+        width: 400px;
+        max-width: 400px;
+        text-align: center;
+        height: 150px !important;
+    }
+
+    #confirmModal .modal-buttons {
+        margin-top: 20px;
+    }
+
+    #confirmModal .modal-buttons button {
+        margin: 0 10px;
+    }
+</style>
+@* <div class="pull-left">
+    <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnGalleryConfig" disable> Create gallery  </button>
+</div> *@
+<br />
+<br />
+<div class="gallery" id="dvgallery" style="display:flex;">
+    @if (_appSession.CanEditProjects == "YES")
+    {
+        <a href="javascript:void(0);" 
+            style="vertical-align: middle;padding:5px;display:inline-grid; text-align:center;" 
+            id="uploadImages" 
+            title="Upload Pictures" 
+            data-tippy-content="Please upload high-quality pictures of the project."
+            class="disabled-link">Upload<i class="fa fa-camera fa-3x p-1" ></i>Pictures</a>
+    }
+</div>
+@if (_appSession.CanEditProjects == "YES")
+{
+    <div class="pull-right">
+    <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnSaveGalleryChanges" disable> Submit </button>
+    </div>
+}
+<input type="file" id="fileInput" multiple hidden accept="image/png, image/gif, image/jpeg, image/jpg">
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to delete this file?</p>
+        <div class="modal-buttons">
+            <button class="btn btn-default btn-sm" type="button" style="width:100px" onclick="confirmAction(true)">Yes</button>
+           
+            <button class="btn btn-default btn-sm" type="button" style="width:100px" onclick="confirmAction(false)">No</button>
+        </div>
+        <input type="hidden" id="selectedImageName" />
+    </div>
+</div>
+<partial name="_galleryConfig" />

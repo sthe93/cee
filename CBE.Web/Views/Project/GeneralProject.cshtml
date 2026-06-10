@@ -1,0 +1,124 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@*@model CBE.Web.Models.GeneralProjectDashboard
+*@
+
+@{
+    Layout = "_Layout";
+}
+
+
+<link href="~/lightbox/lightbox.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/vendor/select2/select2.css" />
+
+<div class="card full-height">
+    <div class="card-header">
+        <div class="card-head-row">
+            <div class="card-title">Project Management</div>
+
+        </div>
+    </div>
+
+
+    <input type="hidden" id="SecondaryProjectOwnerUserName" class="form-control input-lg">
+    <input type="hidden" id="GeneralProjectId" class="form-control input-lg" value="@_appSession.GeneralProjectId">
+    <div class="card-body" style="zoom:100%;font-family: Tahoma, sans-serif;">
+        <div class="stepwizard">
+            <div class="stepwizard-row setup-panel">
+
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                    <p><small>General Project information</small></p>
+                </div>
+
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                    <p><small>Project Contact Information</small></p>
+                </div>
+
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                    <p><small>Partnership information</small></p>
+                </div>
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                    <p><small>Project Overview</small></p>
+                </div>
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                    <p><small>Project Implementation <br />, Monitoring and Evaluation</small></p>
+                </div>
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-6" type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+                    <p><small> Project Sustainability</small></p>
+                </div>
+                <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                    <a href="#step-7" type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>
+                    <p><small> Project Gallery</small></p>
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="panel panel-default setup-content" id="step-1">
+            <partial name="_GeneralProject" />
+        </div>
+
+        <div class="panel panel-default setup-content" id="step-2">
+            <partial name="_ProjectContactInformation" />
+        </div>
+        <div class="panel panel-default setup-content" id="step-3">
+
+            <partial name="_Partnership" />
+        </div>
+        <div class="panel panel-default setup-content" id="step-4">
+
+            <partial name="_ProjectOverview" />
+        </div>
+        <div class="panel panel-default setup-content" id="step-5">
+            <partial name="_ProjectImplementation" />
+        </div>
+        <div class="panel panel-default setup-content" id="step-6">
+            <partial name="_ProjectSustainability" />
+        </div>
+        <div class="panel panel-default setup-content" id="step-7">
+            <partial name="_ProjectGallery" />
+        </div>
+    </div>
+
+</div>
+
+<partial name="_newProjectOwnerModalForm" />
+<partial name="_spinner" />
+<partial name="_projectProgress" />
+
+
+
+@section Scripts
+    {
+
+  
+    <script src="~/js/dist/project/generalproject.js?v=19"></script>
+    <script src="~/js/dist/project/partnership.js?v=14"></script>
+    <script src="~/js/dist/project/projectoverview.js?v=19"></script>
+    <script src="~/js/dist/project/projectimplementation.js?v=12"></script>
+    <script src="~/js/dist/project/projectsustainability.js?v=19"></script>
+    <script src="~/js/dist/users/verifyuser.js?v=13"></script>
+    <link rel="stylesheet" href="~/css/ProjectPhotoGallery.css" />
+    <link rel="stylesheet" href="~/css/Multiselect.css" />
+    <script src="~/js/ProjectGallery.js?v=12"></script>
+    <script src="~/js/Multiselect.js"></script>
+    <script src="~/js/dist/project/lookups.js?v=14"></script>
+    <script src="~/js/dist/project/sustainabledevelopmentgoalsookup.js?v=12"></script>
+    <script src="~/js/dist/project/departmentlookups.js?v=13"></script>
+    <script src="~/js/dist/common/spinner.js?v=12"></script>
+
+    <script src="~/lightbox/lightbox.js"></script>
+    <script src="~/js/dist/project/addstudentdynamically.js?v=14"></script>
+    <script src="~/js/dist/project/addprojectprogress.js?v=12"></script>
+    <script src="~/js/dist/project/addstaffdynamically.js?v=14"></script>
+ 
+    <script src="~/js/dist/project/projectcontactinformation.js?v=12"></script>
+    <script src="~/vendor/select2/select2.js"></script>
+      <script src="~/js/dist/project/gallery.js?v=17"></script>
+ }
+

@@ -1,0 +1,154 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Project Sustainability Information</div>
+    <input type="hidden" id="ProjectSustainabilityId" class="form-control input-lg" />
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="StateHowProjectFunded"><span style="color:red">*</span>Funds</label>
+        <div class="col-md-3">
+            <textarea class="form-control" id="StateHowProjectFunded" rows="2" cols="96" maxlength="490" placeholder="State how your Project is funded"></textarea>
+        </div>
+        <label class="col-md-3 col-form-label" for="BudgetAllocated"><span style="color:red">*</span>Budget Allocated</label>
+        <div class="col-md-3">
+            <select " id="BudgetAllocated" class="form-control">
+            <option value="R0 - R1000">R0 - R1000</option>
+            <option value="R1000 - R10 000">R1000 - R10 000</option>
+            <option value="R10 000 - R50 000">R10 000 - R50 000</option>
+            <option value="R50 000 - R100 000">R50 000 - R100 000</option>
+            <option value="R100 000 - R500 000">R100 000 - R500 000</option>
+            <option value="R500 000 - R1 000 000">R500 000 - R1 000 000</option>
+            <option value="R1 000 000 - R10 000 000">R1 000 000 - R10 000 000</option>
+            <option value="R10 000 000+">R10 000 000+</option>
+            </select>
+            @*    <input type="number" id="BudgetAllocated" class="form-control input-lg" placeholder="Budget Amount Allocated" /> *@
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="NameOfFunderOrDonor"><span style="color:red">*</span>Funder</label>
+            <div class="col-md-3">
+            <input type="text" id="NameOfFunderOrDonor" class="form-control input-lg" placeholder="Name of Funder(s)" />
+            </div>
+
+            <label 
+                class="col-md-3 col-form-label" 
+                for="EnsureProjectExistence"
+                data-tippy-content="Please select the process in place to ensure the sustainability of the project."
+            >   
+                <span style="color:red">*</span>Continuity
+            </label>
+
+            <div class="col-md-3">
+            <select id="continuedExistenceOfYourProjectId" class="form-control" onchange="onContinuedProjectExistanceChange(this)">
+            <option selected="" disabled value="">--Select Below--</option>
+            </select>
+
+            </div>
+            </div>
+
+
+            <div class="form-group row" id="dvOtherEnsureProjectExistenceDetails">
+            <div class="col-md-6">
+            </div>
+            <label class="col-md-3 col-form-label" id="OtherEnsureProjectExistencelabel" for="OtherEnsureProjectExistenceDetails"><span style="color:red">*</span> Please enter project existance</label>
+            <div class="col-md-3">
+            <input type="text" id="OtherEnsureProjectExistenceDetails" class="form-control input-lg" size="16" placeholder="Ensure the continued existence of your project" />
+
+            </div>
+            </div>
+
+
+            </div>
+            <br />
+            <div class="panel panel-default" style="border-radius: 5px; border: 2px solid #7777; border-color:#ec5800;">
+            <div class="panel-heading panelheadingImage">Sustainability</div>
+            <div class="form-group row">
+
+            <label 
+                class="col-md-3 col-form-label" 
+                for="Years"
+                data-tippy-content="How many years is the project expected to last?"
+            >
+                <span style="color:red">*</span>Years
+            </label>
+
+            <div class="col-md-3">
+            <input type="number" id="Years" class="form-control input-lg" maxlength="2" placeholder="Years" onchange="ValidateNumbeOfYears(this)" />
+            </div>
+            <label class="col-md-3 col-form-label" for="NumberOfDirectBeneficiaries"><span style="color:red">*</span>No of community members involved</label>
+            <div class="col-md-3">
+            <input type="number" id="NumberOfDirectBeneficiaries" class="form-control input-lg" placeholder="No of community members" onchange="ValidateNumberOfBeneficiaries(this)" />
+            </div>
+            </div>
+
+            <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="Town">
+                <span style="color:red">*</span>Nearest Town
+            </label>
+
+            <div class="col-md-3">
+                <input type="text" id="Town" class="form-control input-lg" placeholder="Town" />
+            </div>
+
+            <label 
+                class="col-md-3 col-form-label" 
+                for="ProvinceId"
+                data-tippy-content="Please choose the provice(s) where the project is being implimented."
+            >
+                <span style="color:red">*</span>Province
+            </label>
+
+            <div class="col-md-3">
+                <select id="ProvinceId" class="js-example-basic-single form-control" multiple style="width:100%;">
+                </select>
+            </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="School">Nearest School</label>
+            <div class="col-md-3">
+            <input id="School" maxlength="150" class="form-control">
+            </select>
+            </div>
+            <label class="col-md-3 col-form-label" for="nmm"> </label>
+            <div class="col-md-3">
+            </div>
+            </div>
+            </div>
+            <br />
+            <div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;" >
+            <div class="panel-heading panelheadingImage">Beneficiary Organization</div>
+            <div id="divBeneficiaryPanel"></div>
+        
+            @if (_appSession.CanEditProjects == "YES")
+            {
+                <div class="form-group row ">     
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-sm" id="btnAddBeneficiaryOrg" type="button" style="margin-right:10px">
+                            Add Beneficiary Organization
+                        </button>
+                    </div>
+                </div>
+                <br />
+            }
+        </div>
+<br />
+<!--THE WAS ADD PROJECT RELATED PRICTURE PANEL-->
+<br />
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()">
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+              <button class="btn btn-default btn-sm nextBtn" type="button" style="width:80px;margin-right:10px">Skip</button>
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnSustainability" disable><i class="fa fa-save"></i> Save And Continue </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+        }
+@*        <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnSustainability"><i class="fa fa-save"></i> Save And Continue <i class="fa fa-arrow-right"></i> </button>*@
+    </div>
+</div>

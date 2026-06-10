@@ -1,0 +1,525 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+@{
+    string email = _appSession.Username + "@uj.ac.za";
+}
+
+
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">General Information</div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label" for="ProjectReference">&nbsp;<span style="color:red">* </span>Project Reference</label>
+        <div class="col-md-3">
+            <input type="text" id="ProjectReference" name="ProjectReference" class="form-control input-lg" size="16" placeholder="Auto Generated" readonly>
+        </div>
+        <label class="col-md-3 col-form-label" for="projectLogo"><span style="color:red"></span>Project Logo</label>
+        <div class="col-md-3">
+            <input type="file" id="fileUpload1" onchange="readURL(this);" accept="image/png, image/gif, image/jpeg">
+            <br />
+            <br />
+            <div id="display-image">
+
+                <img id="CBEProjectLogo" src="" alt=" image" class="ImageLogoSize" />
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<!--More Information-->
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">More Information</div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label"
+            for="titleOftheProject"
+            data-tippy-content="Provide the official name of the project.">
+            <span style="color:red">*</span> Title
+        </label>
+
+        <div class="col-md-3">
+            <input type="text" id="titleOftheProject" class="form-control input-lg" placeholder="Title of the Project">
+        </div>
+
+        @if (_appSession.RoleName == "Super Administrator")
+        {
+            <label 
+                class="col-md-3 col-form-label"
+                for="facultyDivision"
+                data-tippy-content="Indicate which faculty, division, or campus is responsible for the project."
+            >
+                <span style="color:red">*</span>Faculty/Division
+            </label>
+        }
+        else
+        {
+            <label 
+                class="col-md-3 col-form-label"
+                for="facultyDivision"
+            >
+                <span style="color:red">*</span>Faculty/Division
+            </label>
+        }
+
+
+        <input type="hidden" id="hdFacultyId" class="form-control" value="@_appSession.FacultyId">
+        <input type="hidden" id="roleName" class="form-control" value="@_appSession.RoleName">
+
+        <div class="col-md-3 ms-4">
+            @if (_appSession.RoleName == "Super Administrator")
+            {
+                <select id="facultyDivision" class="form-control facultyDivision"></select>
+            }
+            else if (_appSession.GeneralProjectId != null && _appSession.GeneralProjectId != 0)
+            {
+                <select id="facultyDivision" disabled class="form-control facultyDivision"></select>
+            }
+            else
+            {
+                <select id="facultyDivision" class="form-control" disabled>
+                    <option value="@_appSession.FacultyId" selected>@_appSession.FacultyName</option>
+                </select>
+            }
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        @if (_appSession.RoleName == "Super Administrator")
+        {
+            <label 
+                class="col-md-3 col-form-label" 
+                for="DepartmentUnit"
+                data-tippy-content="Specify the department or unit managing the project."
+            >
+                <span style="color:red">* </span>Department
+            </label>
+        }
+        else
+        {
+            <label 
+                class="col-md-3 col-form-label"
+                for="DepartmentUnit"
+            >
+                <span style="color:red">* </span>Department
+            </label>
+        }
+
+        <div class="col-md-3">
+            @if (_appSession.RoleName == "Super Administrator")
+            {
+                <select id="DepartmentUnit" class="form-control DepartmentUnit" aria-expanded="true" required>
+                </select>
+            }
+            else if (_appSession.GeneralProjectId != null && _appSession.GeneralProjectId != 0)
+            {
+                <select id="DepartmentUnit" class="form-control DepartmentUnit" disabled aria-expanded="true" required>
+                </select>
+            }
+            else
+            {
+                <select id="DepartmentUnit" class="form-control" aria-expanded="true" disabled>
+                    <option value="@_appSession.DepartmentId" selected>@_appSession.DepartmentName</option>
+                </select>
+            }
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="DepartmentResponsibleForProject">
+            <span style="color:red">* </span>Responsible
+        </label>
+        
+        <div class="col-md-3">
+            <select id="DepartmentResponsibleForProject" class="form-control" required="">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label" 
+            for="communityEngagementUnit">
+            <span style="color:red">* </span>Institutional or Campus Project 
+        </label>
+       
+        <div class="col-md-3">
+            <select id="communityEngagementUnit" aria-expanded="true" class="form-control" required="" onchange="onCommunityEngagementUnitChange(this)">
+            </select>
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label hcommunityEngagementUnit" 
+            for="communityEngagementUnit">
+            <span style="color:red">* </span>Campus 
+        </label>
+        
+        <div class="col-md-3">
+            <select id="campus" aria-expanded="true" class="form-control hcommunityEngagementUnit" required="">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label" 
+            for="ProjectDuration"
+            data-tippy-content="State whether the project is once-off or on-going">
+            <span style="color:red">* </span>Project Duration
+        </label>
+
+        <div class="col-md-3">
+            <select id="ProjectDuration" aria-expanded="true" class="form-control" required="" onchange="onProjectDurationChange(this)">
+            </select>
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="ProjectLocation"
+            data-tippy-content="Specify the geographical scope of the location.">
+            <span style="color:red">* </span>Project Location
+        </label>
+
+        <div class="col-md-3">
+            <select id="ProjectLocation" class="form-control" required="">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label" 
+            for="ProjectStartDate"
+            data-tippy-content="Please provide the date when the project commenced.">
+            <span style="color:red">*</span>Start Date
+        </label>
+
+        <div class="col-md-3">
+            <input 
+                type="text"
+                placeholder="yyyy-mm-dd"
+                name="StartDate"
+                id="ProjectStartDate"
+                class="form-control input-lg datepicker DisableTypingDate" 
+                size="16" 
+            />
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label ToggleProjectEndDate" 
+            for="ProjectEndDate"
+            >
+            <span style="color:red">* </span>End Date
+        </label>
+
+        <div class="col-md-3 ToggleProjectEndDate">
+            <input 
+                type="text"
+                placeholder="yyyy-mm-dd"
+                name="EndDate"
+                id="ProjectEndDate"
+                class="form-control input-lg datepicker DisableTypingDate" 
+                size="16" 
+            />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            id="LabelSustainableDevelopmentGoals" 
+            class="col-md-3 col-form-label" 
+            for="SustainableDevelopmentGoals"
+            data-tippy-content="Please select the main SDG addressed by the project, additional SDGs can be provided in the project description."
+        >
+            <span style="color:red">* </span>SDG
+        </label>
+        
+        <div class="col-md-3">
+            <select id="SustainableDevelopmentGoals" class="form-control SustainableDevelopmentGoals" required="">
+            </select>
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="CEProjectType"
+            data-tippy-content="Select one classification according to UJ CE Policy: Service Learning, Community-based Research, or Organized Outreach.">
+            <span style="color:red">* </span>Project Type
+        </label>
+
+        <div class="col-md-3">
+            <select 
+                id="CEProjectType" 
+                aria-expanded="true" 
+                class="form-control" 
+                required="">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label" 
+            for="ProjectActualLocationName">
+            <span style="color:red">* </span>Address of the Project
+        </label>
+
+        <div class="col-md-3">
+            <input 
+                type="text" 
+                id="ProjectActualLocationName" 
+                name="Location" 
+                class="form-control input-lg" 
+                size="16" 
+                placeholder="Address of the Project"
+            >
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="IsProjectIndividualOrGroupEffort">
+            <span style="color:red">* </span>Project Effort
+        </label>
+        
+        <div class="col-md-3">
+            <select 
+                id="IsProjectIndividualOrGroupEffort" 
+                class="form-control" 
+                onchange="onProjectEffortChange(this)" 
+                required="">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row dvProjectEffort">
+        <label 
+            class="col-md-3 col-form-label dvProjectEffort" 
+            for="NumberOfUJStaffInvolved">
+            <span style="color:red">* </span>Number of UJ Staff
+        </label>
+        
+        <div class="col-md-3">
+            <input 
+                type="text" 
+                id="NumberOfUJStaffInvolved" 
+                class="form-control input-lg dvProjectEffort totaVolunteerHoursStaff" 
+                size="16" 
+                placeholder="Number of UJ Staff Involved"
+            >
+        </div>
+
+        <label 
+            id="LabelNumberOfUJStudentInvolved" 
+            class="col-md-3 col-form-label" 
+            for="NumberOfUJStudentInvolved">Number of UJ Students
+        </label>
+        
+        <div class="col-md-3">
+            <input 
+                type="text" 
+                id="NumberOfUJStudentInvolved" 
+                class="form-control input-lg totalvolunteerhoursStudent" 
+                size="16" 
+                placeholder="Number of UJ Students Involved" 
+                value="0"
+            >
+        </div>
+    </div>
+
+    <div class="form-group row dvProjectEffort">
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="NoOfhoursPerStaffVolunteer">
+            <span style="color:red" hidden>* </span>No of volunteer hours(staff)
+        </label>
+
+        <div class="col-md-3">
+            <input 
+                type="text" 
+                id="NoOfhoursPerStaffVolunteer" 
+                class="form-control input-lg totaVolunteerHoursStaff" 
+                size="16" 
+                placeholder="No. of volunteer hours(staff)"
+            >
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="NoOfhoursPerStudentVolunteer">
+            <span style="color:red" hidden>* </span>No of volunteer hours (student)
+        </label>
+
+        <div class="col-md-3">
+            <input 
+                type="text" 
+                id="NoOfhoursPertudentVolunteer" 
+                class="form-control input-lg totalvolunteerhoursStudent" 
+                size="16" 
+                placeholder="No. of volunteer hours (student)"
+            >
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label 
+            class="col-md-3 col-form-label dvNumberofyears" 
+            for="numberofyears"
+            data-tippy-content="How many years is the project expected to last?"
+        >
+            <span style="color:red">* </span>Number of years
+        </label>
+
+        <div class="col-md-3  dvNumberofyears">
+            <input 
+                type="text" 
+                id="numberofyears" 
+                class="form-control input-lg" 
+                min="1" 
+                max="5" 
+                pattern="[A-Za-z0-1]+" 
+                size="16" 
+                placeholder="Number of years"
+            >
+        </div>
+
+        <label 
+            class="col-md-3 col-form-label" 
+            for="facultyDivision"
+            data-tippy-content="Please note that each Faculty/Division can only have 1 Flagship project approved annually by the Executive Dean/Director"
+        >
+            <span style="color:red">*</span>Is this a flagship project
+        </label>
+
+        <div class="col-md-3">
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input 
+                        type="radio" 
+                        id="flagshipProjectYes" 
+                        name="flagshipProject" 
+                        value="Yes" 
+                        class="selectgroup-input" 
+                     />
+                    <span class="selectgroup-button">Yes</span>
+                </label>
+
+                <label class="selectgroup-item">
+                    <input 
+                        type="radio" 
+                        id="flagshipProjectNo" 
+                        name="flagshipProject" 
+                        value="No" 
+                        class="selectgroup-input" 
+                    />
+                    <span class="selectgroup-button">No</span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 dvNumberofyears">
+        <table class="table table-striped" id="tblProgress" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th style="width:80%">Progress</th>
+                    <th>
+                        <button class="btn btn-default btn-sm pull-left btnProjectProgressModal" type="button" id="btnProjectProgressModal">Add Project Progress</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="bdyProjectProgress">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-group row dvProjectEffort">
+        <div class="col-md-6">
+            <table class="table table-striped" id="tblNumberOfUJStaffInvolved">
+                <thead>
+                    <tr>
+                        <th>Staff Name</th>
+                        <th>Telephone</th>
+                        <th>
+                            <a class="btn btn-default btn-sm add-addstaff" data-added="0"><i class="la la-plus la-lg">Add Staff</i></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="bdyNumberOfUJStaffInvolved">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <table class="table table-striped" id="tblNumberOfUJStudentInvolved">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Telephone</th>
+                        <th> 
+                            <a class="btn btn-default btn-sm add-addstudent" data-added="0"><i class="la la-plus la-lg">Add Student</i></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="bdyNumberOfUJStudentInvolved">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group row dvProjectEffort">
+        <label class="col-md-3 col-form-label" 
+            for="totalvolunteerhoursStaff">
+            <span style="color:red">* </span>Total volunteer hours (staff)
+        </label>
+
+        <div class="col-md-3">
+            <input 
+                type="number" 
+                id="totalvolunteerhoursStaff" 
+                class="form-control input-lg" 
+                size="16" 
+                placeholder="Total volunteer hours (staff)" readonly
+            >
+        </div>
+
+        <label class="col-md-3 col-form-label" 
+            for="totalvolunteerhoursStudent">
+            <span style="color:red">* </span>Total volunteer hours (student)
+        </label>
+        <div class="col-md-3">
+            <input type="number" id="totalvolunteerhoursStudent" class="form-control input-lg" size="16" placeholder="Total volunteer hours (student)" readonly>
+        </div>
+    </div>
+
+    <div class="form-group row dvProjectEffort">
+        <label class="col-md-3 col-form-label" 
+               for="grandTotalVolunteerHhours">
+               <span style="color:red">* </span>Grand Total volunteer hours</label>
+        <div class="col-md-3">
+            <input type="number" id="grandTotalVolunteerHhours" class="form-control input-lg" size="16" placeholder="Grand Total volunteer hours" readonly>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()" disable>
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btntGeneralProject" disable><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+        }
+    </div>
+</div>

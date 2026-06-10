@@ -1,0 +1,114 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+@{
+    string email = _appSession.Username + "@uj.ac.za";
+
+}
+
+<!--Project Owner-->
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Project Owner</div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="projectOwner"><span style="color:red">* </span>Project Owner</label>
+        <div class="col-md-4">
+            <select id="projectOwner" class="form-control" onchange="onprojectOwnerChange(this)">
+                <option value="0" readonly>Select owner </option>
+                <option value="1">Self </option>
+                <option value="2">Other</option>
+            </select>
+        </div>
+      
+    </div>
+
+
+</div>
+<br />
+<!--Primary Contact details-->
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Primary Contact Details</div>
+    <div class="form-group row" id="dvPrimaryProjectOwner">
+        <div class="col-md-4">
+            <button class="btn btn-default btn-sm" dataFormName="projecteuser" type="button" id="btnAddPrimaryProjectOwner"><i class="icon-user"></i>Add Primary Project Owner</button>
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="myfirstname">First Name</label>
+        <div class="col-md-4">
+            <input type="hidden" id="projectContactInformationId" class="form-control">
+            <input type="text" id="myfirstname" class="form-control input-lg" size="16" placeholder="First Names " value="@_appSession.FirstName" readonly>
+            <input type="hidden" id="hdmyfirstname" value="@_appSession.FirstName">
+        </div>
+        <label class="col-md-2 col-form-label" for="mysurname">Last Name</label>
+        <div class="col-md-4">
+            <input type="text" id="mysurname" class="form-control input-lg" size="16" placeholder="LastName" value="@_appSession.LastName" readonly>
+            <input type="hidden" id="hdmysurname" value="@_appSession.LastName" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="ContactNumber">Contact number</label>
+        <div class="col-md-4">
+            <input type="text" id="ContactNumber" class="form-control input-lg" size="16" name="ContactNumbr" placeholder="Contact number" value="@_appSession.TelephoneNumber" readonly>
+            <input type="hidden" id="hdContactNumber" value="@_appSession.TelephoneNumber" readonly>
+        </div>
+        <label class="col-md-2 col-form-label" for="EmailAddress">Email address</label>
+        <div class="col-md-4">
+            <input type="email" id="EmailAddress" class="form-control input-lg" size="16" placeholder="Email address" value="@email" readonly>
+            <input type="hidden" id="hdEmailAddress" value="@email" readonly>
+        </div>
+    </div>
+</div>
+
+<br />
+<!--Secondary Contact details-->
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Secondary Contact Details</div>
+    <div class="form-group row">
+        <div class="col-md-4">
+            <button class="btn btn-default btn-sm" dataFormName="projecteuser"  type="button" id="btnAddSecondaryProjectOwner"><i class="icon-user"></i>Add Secondary Project Owner</button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="Secondaryfirstname">First Name</label>
+        <div class="col-md-4">
+            <input type="text" id="SecondaryProjectOwnerFullnames" class="form-control input-lg" size="16" placeholder="First Name " readonly>
+        </div>
+        <label class="col-md-2 col-form-label" for="SecondarySurname">Last Name</label>
+        <div class="col-md-4">
+            <input type="text" id="SecondaryProjectOwnerSurname" class="form-control input-lg" size="16" placeholder="Last Name" readonly>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="SecondaryProjectOwnerContactNumber">Contact number</label>
+        <div class="col-md-4">
+            <input type="text" id="SecondaryProjectOwnerContactNumber" class="form-control input-lg" size="16" name="ContactNumbr" placeholder="Contact Number" readonly>
+        </div>
+        <label class="col-md-2 col-form-label" for="SecondaryEmailAddress">Email address</label>
+        <div class="col-md-4">
+            <input type="text" id="SecondaryProjectEmailAddress" class="form-control input-lg" size="16" placeholder="EmailAddress" readonly>
+        </div>
+    </div>
+</div>
+<br />
+
+<br />
+<br />
+
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()" disable>
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+              <button class="btn btn-default btn-sm nextBtn" type="button" style="width:80px;margin-right:10px">Skip</button>
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnProjectContactInformation" disable><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+
+        }
+    </div>
+</div>

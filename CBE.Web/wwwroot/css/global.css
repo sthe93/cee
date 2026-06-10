@@ -1,0 +1,7 @@
+﻿body.form-control, .form-control {
+    font-size: 13px;
+}
+
+body.col-form-label, label, .col-form-label {
+    font-size: 13px !important;
+}

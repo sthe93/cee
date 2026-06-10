@@ -1,0 +1,125 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@using CBE.Web.Helper;
+
+<div id="newUserModalForm" class="modal" tabindex="-1" data-backdrop="static"  role="dialog" style="opacity:1 !important;">
+    <div class="modal-dialog" role="document">
+       @* <form>
+            @Html.AntiForgeryToken()*@
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Verify and Add User</h5>
+                    <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Username</label>
+                            <input type="text" class="form-control" name="Username" id="NewUserUsername" placeholder="Enter username" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+@*                                &nbsp;<button class="btn btn btn-primary btn-sm " onclick="VerifyUser()" style="background-color: #E7540E;" id="btnVerifyUser">Verify</button>*@
+                            &nbsp;<button class="btn btn btn-primary btn-sm" dataFormName="manageuser" style="background-color: #E7540E;" id="btnVerifyUser">Verify</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" class="form-control" name="hiddenRoleID" id="hiddenRoleID">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="FirstName">First Name</label>
+                        <input type="text" class="form-control" name="FirstName" id="NewUserFirstName" readonly="">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Surname">Last Name</label>
+                        <input type="text" class="form-control" name="Surname" id="NewUserSurname" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Position">Position</label>
+                        <input type="text" class="form-control" name="Position" id="NewUserPosition" readonly="">
+                        </div>
+                    </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-12">
+                        <label for="inputState">Role</label>
+                        @if (_appSession.RoleName == "Super Administrator")
+                        {
+                            <select class="form-control form-control" id="NewUserRoleId" name="RoleId" onchange="onRoleNewUserChange(this)"></select>
+                        }
+                        else
+                        {
+                            <select id="NewUserRoleId" class="form-control" disabled>
+                                <option value="4" selected>Project Driver</option>
+                            </select>
+                        }
+                        
+                    </div>
+                </div>
+
+                <div class="form-row dvfaculty">
+                    <div class="form-group col-md-12">
+                        <label for="FacultyDivision">Faculty/Division</label>
+                  
+                        @if (_appSession.RoleName == "Super Administrator")
+                        {
+                            <select id="NewUserFacultyDivision" class="form-control facultyDivision">
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="NewUserFacultyDivision" class="form-control" disabled>
+                                <option value="@_appSession.FacultyId" selected>@_appSession.FacultyName</option>
+                            </select>
+                        }
+                    </div>
+                </div>
+                    <div class="form-row dvdeprtment">
+                        <div class="form-group col-md-12">
+                            <label for="Department">Department</label>
+              
+                        @if (_appSession.RoleName == "Super Administrator")
+                        {
+                            <select id="NewUserDepartment" class="form-control DepartmentUnit" aria-expanded="true" required>
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="NewUserDepartment" class="form-control" aria-expanded="true" disabled>
+                                <option value="@_appSession.DepartmentId" selected>@_appSession.DepartmentName</option>
+                            </select>
+                        }
+                        </div>
+                    </div>
+                   
+                 
+               @*     <div class="form-row" style="display:none;">
+                        <label for="inputState">Is Enabled</label>
+                        <div class="form-group col-md-12">
+                            <input type="checkbox" id="IsActive" name="IsActive" value="true">
+                        </div>
+                    </div>*@
+
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn btn-secondary btn-sm" onclick="AddNewUser()" id="btnAddNewUser">Save</button>
+                            <button class="btn btn btn-primary btn-sm modal-dismiss" data-dismiss="modal" onclick="onCancel()" style="background-color: red;" id="btnCancelB">Cancel</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+@*        </form>
+*@
+    </div>
+</div>

@@ -1,0 +1,112 @@
+﻿@model List< CBE.Web.Models.UserModel>
+@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@using CBE.Web.Helper;
+@{
+    Layout = "_Layout";
+}
+<div class="card full-height">
+    <div class="card-header">
+        <div class="card-head-row">
+            <div class="card-title">User Management</div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="ml-md-auto py-1 py-md-0">
+                        @*<a href="#newUserModalForm" class="btn btn-primary btn-sm" onclick="ClearModal()" data-toggle="modal" data-target="#newUserModalForm"><i class="icon-user"></i>Create New User</a>*@
+                        <button type="button" class="btn btn-primary btn-sm" id="btnNewUser">
+                            <i class="icon-user"></i> Create New User
+                        </button>
+
+                    </div>
+                </div>
+                <div class="card-body" style="zoom:90%;">
+
+                    <div class="table-responsive">
+                        <table id="UsersTables" class="display table table-striped mb-none">
+                            <thead style="background-color:black">
+                                <tr style="color:white">
+                                
+                                    <th onclick="sortTable(1)" scope="col">Username</th>
+                                    <th onclick="sortTable(2)" scope="col">Full Name</th>
+                                    <th onclick="sortTable(3)" scope="col">Department</th>
+                                    <th onclick="sortTable(4)" scope="col">Role</th>
+                                    <th onclick="sortTable(5)" scope="col">Status</th>
+                                    <th onclick="sortTable(6)" scope="col">Date Created</th>
+                                    <th onclick="sortTable(7)" scope="col">Last Updated</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="paginate" id="UsersViewTable">
+                                @if (Model != null)
+                                {
+                                    @foreach (var i in Model)
+                                    {
+                                        <tr>
+                                        
+                                            <td>@Html.DisplayFor(modelItem => i.Username)</td>
+                                            <td>@Html.DisplayFor(modelItem => i.FirstName)  @Html.DisplayFor(modelItem => i.Surname)</td>
+                                            <td>@Html.DisplayFor(modelItem => i.Department)</td>
+                                            <td>@Html.DisplayFor(modelItem => i.RoleName)</td>
+                                            @if (i.IsActive == true)
+                                            {
+                                                <td>Activated</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Deactivated</td>
+                                            }
+
+                                            <td>@i.CreatedDate.ToString("dd/MM/yyy")</td>
+                                            <td>@i.ModifiedDate.ToString("dd/MM/yyy")</td>
+                                            <td>
+                                                @if (i.IsActive == true)
+                                                {
+                                                    <a style="color: #E7540E;" data-id="1234567890" data-userstatus="@i.IsActive" data-userid="@i.UserId" id="" onclick="onActivateDeactivate(this)" href="#"><i class="fas fa-location-arrow"></i>  Deactivate |</a>
+                                                }
+                                                else
+                                                {
+                                                    <a style="color: #E7540E;" data-userstatus="@i.IsActive" data-userid="@i.UserId" onclick="onActivateDeactivate(this)" href="#"><i class="fas fa-location-arrow"></i>  Activate |</a>
+                                                }
+                                                @if (_appSession.RoleName == CbeRoles.PROJECTCOORDINATOR)
+                                                {
+                                                    <a style="color: #E7540E;" data-toggle="modal" data-target="#editUserModalForm" data-userstatus="@i.IsActive" data-userid="@i.UserId" onclick="onEdit(this)" class="mb-xs mt-xs mr-xs modal-sizes" href="#editUserModalForm"><i class="fas fa-edit"></i> View</a>
+                                                }
+                                                else
+                                                {
+                                                    <a style="color: #E7540E;" data-toggle="modal" data-target="#editUserModalForm" data-userstatus="@i.IsActive" data-userid="@i.UserId" onclick="onEdit(this)" class="mb-xs mt-xs mr-xs modal-sizes" href="#editUserModalForm"><i class="fas fa-edit"></i> Edit</a>
+                                                }
+                                            </td>
+                                        
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_editUser" />
+<partial name="_newUser" />
+
+@section Scripts{
+    <script src="~/js/dist/users/user.js?v=14"></script>
+    <script src="~/js/dist/users/verifyuser.js?v=13"></script>
+    <script src="~/js/dist/project/departmentlookups.js?v=13"></script>
+
+
+    <script>
+        $(function () {
+         
+                $('#UsersTables').DataTable();
+           
+        });
+
+    </script>
+  
+    }

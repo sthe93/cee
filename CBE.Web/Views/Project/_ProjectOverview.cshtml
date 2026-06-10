@@ -1,0 +1,170 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+<style type="text/css">
+    #previewModal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    #previewModal .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        margin-left: 21%;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 78%;
+        height:100%;
+    }
+
+    #previewContainer{
+        height: 100%;       
+    }
+
+    #previewModal .close {
+        color: #f26522;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        float:right;
+        opacity:1 !important;
+        padding-bottom: 5px;
+        text-align:end;
+    }
+
+    #previewModal .close:hover,
+    #previewModal .close:focus,
+    #deleteIcon {
+            color: #f26522;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Project Overview Information</div>
+    <input type="hidden" id="ProjectOverviewId" class="form-control input-lg">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="ProjectDescription"><span style="color:red">*</span>Description</label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="ProjectDescription" rows="2" cols="60" maxlength="990" placeholder="Use 100 words minimum to describe your project"></textarea>
+            <p class="float-right"><span style="color:inherit; font-size:inherit;" id="labelDescriptionWordCount">0</span> word/s</p>            
+        </div>
+        
+        <label 
+            class="col-md-2 col-form-label" 
+            for="ProblemWithProjectAddress"
+            data-tippy-content="Describe how your project aims or has implemented a way to solve the identified problems/needs."
+        >
+            <span style="color:red">*</span>Project solution
+        </label>
+
+        <div class="col-md-4">
+            <input type="text" id="ProblemWithProjectAddress" class="form-control input-lg" size="16" placeholder="What problems will the project address?">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label 
+            class="col-md-2 col-form-label" 
+            for="additionalInfo"
+            data-tippy-content="You can upload a file with additional information about the project."
+        >Additional Info.</label>
+        <div class="col-md-4">
+            @if (_appSession.CanEditProjects == "YES")
+            {
+                <input id="additionalInfo" type="file" />
+                <br />
+            }
+            <div style="display:flex;">
+            @if (_appSession.CanEditProjects == "YES")
+            {
+                    <a id="deleteIcon" style="display:none;"><i class="fa fa-trash p-2" title="delete" onclick="javascript:deleteAttachedFile()"></i></a>
+            }
+                <a id="additionalInfoLink" href="javascript:void(0);" class="p-1"></a>
+            </div>
+           
+        </div>
+    </div>
+    <div class="form-group row">
+        <label 
+            class="col-md-2 col-form-label" 
+            for="HowWhereThoseProblemsIdentified"
+            data-tippy-content="Explain how the community needs/problems were needed."
+        >
+            <span style="color:red">*</span>Identification
+        </label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="HowWhereThoseProblemsIdentified" rows="2" cols="60" placeholder="How were these problems identified?" maxlength="990"></textarea>
+        </div>
+
+        <label 
+            class="col-md-2 col-form-label" 
+            for="ProjectObjectivesOutcomes"
+            data-tippy-content="List the expected results and goals of the project."
+        >
+        <span style="color:red">*</span>Objectives & Outcomes</label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="ProjectObjectivesOutcomes" rows="2" cols="60" placeholder="Project Objective/Outcomes" maxlength="990"></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label 
+            class="col-md-2 col-form-label" 
+            for="targetSectorGroup"
+            data-tippy-content="Select the target groups to benefit from this project."
+        >
+            <span style="color:red">*</span>Target Group
+        </label>
+
+        <div class="col-md-4">
+            <div class="checkboxlist"></div>
+            <input type="text" id="TargetSectorGroupOther" style="border-width:2px; border-style:solid;" class="form-control input-lg" size="16" placeholder="Other Target Group involved">
+        </div>
+
+        <label 
+            class="col-md-2 col-form-label" 
+            for="BenefitTargetGroup"
+            data-tippy-content="Explain the expected positive impact for the beneficiaries."
+        >
+            <span style="color:red">* </span>Project benefit
+        </label>
+
+        <div class="col-md-4">
+            <textarea class="form-control" id="BenefitTargetGroup" rows="2" cols="60" placeholder="How will the project benefit the target group?" maxlength="990"></textarea>
+        </div>
+    </div>
+
+    <div id="previewModal" class="modal" style="width:100%;">
+        <div class="modal-content">
+            <span class="close" onclick="javascript:closePreviewModal();">&times;</span>
+            <div id="previewContainer"></div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()">
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+              <button class="btn btn-default btn-sm nextBtn" type="button" style="width:80px;margin-right:10px">Skip</button>
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnProjectOverview" disable><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+        }   
+@*        <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnProjectOverview"><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>*@
+        </div>
+    </div>

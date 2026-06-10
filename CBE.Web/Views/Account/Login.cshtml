@@ -1,0 +1,67 @@
+﻿@model CBE.Web.Models.LoginModel
+
+@{
+	Layout = "_LayoutLoginLayout";
+}
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form id="loginForm" class="login100-form validate-form" method="post" asp-action="Login" asp-controller="Account">
+                @Html.AntiForgeryToken()
+
+                <!-- Title / Logo -->
+                <span class="login100-form-title">
+                    UJ Community Engagement Reporting System <br />
+                    <img src="~/images/ujLogo.png" alt="navbar brand" width="150" height="150" />
+                </span>
+
+                <!-- Cookie Notice -->
+                <div id="cookieNotice">
+                    <strong>Cookie notice:</strong> This system uses essential cookies to maintain your session and keep you signed in. These cookies are required for security and core functionality.
+                </div>
+
+                <!-- Username -->
+                <div class="wrap-input100 validate-input" data-validate="Please enter username">
+                    <input class="input100" type="text" name="UserName" asp-for="Username" placeholder="Username" id="Username">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="wrap-input100 validate-input" data-validate="Please enter password">
+                    <input class="input100" type="password" name="Password" asp-for="Password" placeholder="Password" id="Password">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <!-- Login Button -->
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" id="btnLogin">Sign in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Bootstrap Notify -->
+<script src="~/lib/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	</script>
+@if (!String.IsNullOrEmpty(ViewBag.Error))
+{
+	<script type="text/javascript">
+		$.notify({
+			icon: 'flaticon-alarm-1',
+						message: '@ViewBag.Error',
+
+		}, {
+			type: 'alert alert-danger',
+			placement: {
+				from: "top",
+				align: "right"
+			},
+			time: 1000,
+		});
+	</script>
+}

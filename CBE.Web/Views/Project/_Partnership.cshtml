@@ -1,0 +1,74 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Project Partnership Information</div>
+    <div class="form-group row">
+
+        
+        <input type="hidden" id="PartnershipId" class="form-control input-lg" />
+        <label class="col-md-2 col-form-label" for="OtherProjectPartner"><span style="color:red">* </span>Project Partner</label>
+        <div class="col-md-4">
+            <select id="OtherProjectPartner" class="form-control" onchange="onOtherProjectChange(this)">
+            </select>
+
+
+        </div>
+        <label class="col-md-2 col-form-label" for="OtherMajorPartiesInvolved" id="LabelOtherMajorPartiesInvolved"><span style="color:red">* </span>Stakeholders</label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="OtherMajorPartiesInvolved" rows="2" cols="110" placeholder="Major parties/stakeholders involved" maxlength="990"></textarea>
+        </div>
+
+    </div>
+    <div class="form-group row" style="display:none;">
+        <label class="col-md-2 col-form-label" id="LabelOtherProjectPartnerEmailAddress" for="OtherProjectPartnerEmailAddress"><span style="color:red">* </span>Partner Email</label>
+        <div class="col-md-4">
+            <input type="text" id="OtherProjectPartnerEmailAddress" value="n/a" class="form-control input-lg" size="16" placeholder="Project Partner Email">
+        </div>
+        <label class="col-md-2 col-form-label" id="LabelOtherProjectPartnerContactNumber" for="OtherProjectPartnerContactNumber"><span style="color:red">* </span>Partner Contact Number</label>
+        <div class="col-md-4">
+            <input type="text" id="OtherProjectPartnerContactNumber" value="n/a" class="form-control input-lg" size="16" placeholder="Partner Contact">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2" id="dvOtherProjectPartnerlabel">
+            <label class="col-md-2 col-form-label" id="OtherProjectPartnerlabel" for="OtherProjectPartnerlabel"><span style="color:red">* </span>Project partner name:</label>
+        </div>
+        <div class="col-md-4" id="dvOtherProjectPartnerDetails">
+            <input type="text" id="OtherProjectPartnerDetails" class="form-control input-lg" size="16" placeholder="Other Project Partner" />
+        </div>
+
+        <label 
+            class="col-md-2 col-form-label" 
+            for="NumberOfProjectBeneficiaries" 
+            id="LabelNumberOfProjectBeneficiaries"
+            data-tippy-content="Number of proven beneficiaries from this project."
+        >
+            <span style="color:red">* </span>Target beneficiaries
+        </label>
+
+        <div class="col-md-4">
+            <input type="number" id="NumberOfProjectBeneficiaries" class="form-control input-lg" size="16" placeholder="Number of target project beneficiaries">
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()">
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+            <button class="btn btn-default btn-sm nextBtn" type="button" style="width:80px;margin-right:10px">Skip</button>
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnPartnership" disable><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+        }
+@*        <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px" id="btnPartnership"><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>*@  
+</div>
+</div>

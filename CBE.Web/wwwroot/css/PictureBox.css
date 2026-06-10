@@ -1,0 +1,14 @@
+﻿#display-image {
+    width: 130px;
+    height: 130px;
+    border: 1px solid black;
+    background-position: center;
+    background-size: cover;
+}
+#display-prjimage {
+    width: 450px;
+    height: 130px;
+    border: 1px solid black;
+    background-position: center;
+    background-size: cover;
+}

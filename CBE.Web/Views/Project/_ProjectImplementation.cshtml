@@ -1,0 +1,78 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+
+<div class="panel" style="border-radius: 5px; border: 2px solid #7777;border-color:#ec5800;">
+    <div class="panel-heading panelheadingImage">Project Implementation, Monitoring and Evaluation</div>
+    <input type="hidden" id="ProjectImplementationId" class="form-control input-lg" />
+
+    <div class="form-group row">
+        <label 
+            class="col-md-2 col-form-label" 
+            for="DescribeProjectImplementation"
+            data-tippy-content="Explain how the project will be carried out step by step."
+        >
+            <span style="color:red">*</span>Implementation
+        </label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="DescribeProjectImplementation" rows="2" cols="50" maxlength="990" placeholder="How will you implement the project?"></textarea>
+        </div>
+
+        <label 
+            class="col-md-2 col-form-label" 
+            for="BeneficiariesContributions"
+            data-tippy-content="Describe how beneficiaries are participating in the project and their input."
+        >
+            <span style="color:red">* </span>Contributions
+        </label>
+        <div class="col-md-4">
+            <textarea class="form-control" id="BeneficiariesContributions" rows="2" cols="110" maxlength="490" placeholder="Contributions by beneficiaries (Labor, Time, Resource, etc):"></textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label 
+            class="col-md-2 col-form-label" 
+            for="EvaluateProjectImplementation"
+            data-tippy-content="Describe the methods/tools you are using to monitor the project and evaluate its impact."
+        >
+            <span style="color:red">*</span>Evaluation
+        </label>
+
+        <div class="col-md-4">
+            <textarea class="form-control" id="EvaluateProjectImplementation" rows="2" cols="110" maxlength="990" placeholder="Evaluate project implementation"></textarea>
+        </div>
+        <label class="col-md-2 col-form-label" id="EMPTY1" for="EMPTY1"><span style="color:red"></span> </label>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="tbn"></label>
+        <div class="col-md-4">
+        </div>
+        <label for="empty"></label>
+        <div class="col-md-4">
+        </div>
+    </div>
+
+</div>
+
+<br />
+<br />
+<div class="pull-right">
+    <div class="col-md-12">
+        <button type="button" id="btnCancel" class="btn btn-default btn-sm" style="background-color: #7777; border-color: #7777; width:100px; margin-right:10px" onclick="Cancel()">
+            Cancel
+        </button>
+
+        @if (_appSession.CanEditProjects == "YES")
+        {
+            <button class="btn btn-default btn-sm nextBtn" type="button" style="width:80px;margin-right:10px">Skip</button>
+
+            <button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnProjectImplementation"><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>
+        }
+        else
+        {
+            <button class="btn btn-default btn-sm nextBtn pull-right" type="button" style="width:155px"> Next <i class="fa fa-arrow-right"></i> </button>
+        }
+
+@*<button class="btn btn-default btn-sm pull-right" type="button" style="width:155px" id="btnProjectImplementation"><i class="fa fa-save"></i> Save and Continue <i class="fa fa-arrow-right"></i> </button>*@
+    </div>
+</div>

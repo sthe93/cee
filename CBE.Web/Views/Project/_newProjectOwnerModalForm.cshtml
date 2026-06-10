@@ -1,0 +1,71 @@
+﻿<div id="newProjectOwnerModalForm" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="opacity:1 !important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header panelheadingImage">
+                <h5 class="modal-title">Verify and Add User</h5>
+                <button type="button" class="close btn-sm CancelModal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputEmail4">Username</label>
+                        <input type="text" class="form-control" name="NewUserUsername" id="NewUserUsername" placeholder="Enter username" required>
+                        <input type="hidden" class="form-control" id="hdTypeName">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            &nbsp;<button class="btn btn btn-default btn-sm " style="background-color: #E7540E;" dataFormName="projecteuser" id="btnVerifyUser">Verify</button>
+                            <button class="btn btn btn-default btn-sm CancelModal" style="background-color: red;" id="btnCancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" class="form-control" name="hiddenRoleID" id="hiddenRoleID" readonly="" hidden>
+                <div id="verifiedProjectOwnerDivUI">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="NewUserFirstName">First Name</label>
+                            <input type="text" class="form-control" name="NewUserFirstName" id="NewUserFirstName" readonly="">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="NewUserSurname">Last Name</label>
+                            <input type="text" class="form-control" name="NewUserSurname" id="NewUserSurname" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="NewUserPosition">Position</label>
+                            <input type="text" class="form-control" name="NewUserPosition" id="NewUserPosition" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="newPrSecDepartment">Department</label>
+                            <input type="text" class="form-control" name="NewUserDepartment" id="NewUserDepartment" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="NewUserFacultyDivision">Faculty/Division</label>
+                            <input type="text" class="form-control" name="NewUserFacultyDivision" id="NewUserFacultyDivision" readonly="">
+                        </div>
+                    </div>
+
+
+
+                 @*   <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn btn-default btn-sm CancelModal" style="background-color: red;" id="btnCancelProjectOwner">Save</button>
+
+                        </div>
+                    </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

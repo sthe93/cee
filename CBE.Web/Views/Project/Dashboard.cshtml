@@ -1,0 +1,144 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@model IEnumerable<CBE.Web.Models.GeneralProjectDashboard>
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/PictureBox.css">
+<input type="hidden" id="lblUserId" />
+<div class="card full-height">
+    <div class="card-header">
+        <div class="card-head-row">
+            <div class="card-title">Project Management</div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="card">
+                  <div class="card-header">
+                      <div class="ml-md-auto py-2 py-md-0">
+                         
+                          <a class="btn btn-primary btn-sm" href=@Url.Action("CreateProject","project") <i class="fas fa-edit"></i>Create New Project</a>
+                        
+                      </div>
+                      <br />
+                  </div>
+
+                  <div class="card-body" style="font-family: Tahoma, sans-serif;">
+                      <div class="table-responsive">
+                          <table id="projectTable" class="display table table-striped mb-none">
+                              <thead style="background-color:black">
+                                  <tr style="color:white">
+                                      <th onclick="sortTable(1)" scope="col">
+                                          Id#
+                                      </th>
+                                      <th onclick="sortTable(1)" scope="col">
+                                          Project Reference
+                                      </th>
+                                      <th onclick="sortTable(2)" scope="col">
+                                          Project Title
+                                      </th>
+                                      <th onclick="sortTable(3)" scope="col">
+                                          SDG
+                                      </th>
+                                      <th onclick="sortTable(4)" scope="col">
+                                          Project Type
+                                      </th>
+                                      <th onclick="sortTable(5)" scope="col">
+                                          Duration
+                                      </th>
+                                      <th onclick="sortTable(6)" scope="col">
+                                          Start Date
+                                      </th>
+                                      <th onclick="sortTable(7)" scope="col">
+                                          End Date
+                                      </th>
+                                      <th onclick="sortTable(8)" scope="col">
+                                          Created Date
+                                      </th>
+                                      <th onclick="sortTable(9)" scope="col">
+                                          Created By
+                                      </th>
+                                      <th onclick="sortTable(10)" scope="col">
+                                          Role
+                                      </th>
+                                   
+                                      <th>Action</th>
+                                  </tr>
+                              </thead>
+
+                              <tbody class="paginate" id="PartnershipViewTable">
+                                  @if (Model != null)
+                                  {
+                                      var model = Model.OrderByDescending(o => o.GeneralProjectId).AsEnumerable();
+
+                                      @foreach (var item in model)
+                                      {
+                                          <tr>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.GeneralProjectId)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.ProjectReference)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.Title)
+                                              </td>
+                                              <td>
+
+                                                  @Html.DisplayFor(modelItem => item.SustainableDevelopmentGoalDescription)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.ProjectTypeName)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.ProjectDuration)
+                                              </td>
+                                           
+                                              <td>
+                                                  @item.StartDate.ToString("dd/MM/yyy")
+                                              </td>
+                                              <td>
+                                                  @item.EndDate == "null" ? "" : DateTime.Parse(item.EndDate).ToString("dd/MM/yyyy"))
+                                              </td>
+
+
+                                              <td>
+                                                  @item.CreatedDate.ToString("dd/MM/yyy")
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.CreatedBy)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.CreatedUserRole)
+                                                                                        <td>
+                                                  <a style="color: #E7540E;" href=@Url.Action("SetGeneralProject","project",new {GeneralProjectId = item.GeneralProjectId,CanEditProjects="NO"}) class="mb-xs mt-xs mr-xs modal-sizes"> View</a>
+
+                                                  <a style="color: #E7540E;" href=@Url.Action("SetGeneralProject","project",new {GeneralProjectId = item.GeneralProjectId,CanEditProjects="YES"}) class="mb-xs mt-xs mr-xs modal-sizes"><i class="fas fa-edit"></i> Edit</a>
+                                                
+                                              </td>
+                                          </tr>
+                                      }
+                                  }
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/dist/users/ProjectDashboard.js?v=1"></script>
+    <script>
+        $(function () {
+
+            $('#projectTable').DataTable({
+                "order": [[0, 'desc']]
+            });
+        });
+    </script>
+}

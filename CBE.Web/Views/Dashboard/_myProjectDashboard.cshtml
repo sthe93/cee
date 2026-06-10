@@ -1,0 +1,85 @@
+﻿
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body" style="font-family: Tahoma, sans-serif;">
+            <div class="form-group row">
+
+                <div class="col-md-2">
+                    <select id="SustainableDevelopmentGoals" class="form-control SustainableDevelopmentGoal myProj" aria-expanded="true" required>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" id="ProjectName" class="form-control" placeholder="Project name">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" id="ProjectOwner" class="form-control" placeholder="Project owner">
+                </div>
+
+                <div class="col-md-2">
+                    <input type="text" id="ReferenceNumber" class="form-control" placeholder="Reference number">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default btn-sm" type="button"  style="width:155px" id="btnMyProjectDashboardSearch"><i class="fa fa-search"></i> search</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table id="MyProjectDashboardTable" class="display table table-striped mb-none">
+                    <thead style="background-color:black">
+                        <tr style="color:white">
+                            <th onclick="sortTable(1)" scope="col">
+                                Id#
+                            </th>
+                            <th onclick="sortTable(1)" scope="col">
+                                Project Reference
+                            </th>
+                            <th onclick="sortTable(2)" scope="col">
+                                Project Title
+                            </th>
+                            <th onclick="sortTable(3)" scope="col">
+                                SDG
+                            </th>
+                            <th onclick="sortTable(4)" scope="col">
+                                Project Type
+                            </th>
+                            <th onclick="sortTable(5)" scope="col">
+                                Duration
+                            </th>
+                            <th onclick="sortTable(6)" scope="col">
+                                Start Date
+                            </th>
+                            <th onclick="sortTable(7)" scope="col">
+                                End Date
+                            </th>
+                            <th onclick="sortTable(8)" scope="col">
+                                Created Date
+                            </th>
+                            <th onclick="sortTable(9)" scope="col">
+                                Created By
+                            </th>
+                            <th onclick="sortTable(10)" scope="col">
+                                Role
+                            </th>
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="paginate" id="bdyMyProjectDashboard">
+                    </tbody>
+                </table>
+
+                <div class="col-md-12 center text-center">
+                    <span class="pull-left" id="total_reg"></span>
+                    <ul class="pagination pager pull-right" id="historyPager"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

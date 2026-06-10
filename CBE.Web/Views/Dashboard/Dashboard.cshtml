@@ -1,0 +1,75 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/vendor/select2/select2.css" />
+<div class="card full-height">
+    <div class="card-header">
+        <div class="card-head-row">
+            <div class="card-title">Project Management</div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="ml-md-auto py-2 py-md-0">
+            <a class="btn btn-primary btn-sm" href=@Url.Action("CreateProject","project") <i class="fas fa-edit"></i>Create New Project</a>
+        </div>
+
+        <div class="col-md-12">
+            <input type="hidden" id="hfRoleId" value="@_appSession.RoleName" class="form-control">
+
+            <div class="card-body" style="zoom:100%;font-family: Tahoma, sans-serif;">
+                <div class="stepwizard">
+                    <div class="stepwizard-row setup-panel">
+
+                        <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                            <a href="#step-1" type="button" id="btnMyProjectDashboard" class="btn btn-success btn-circle">1</a>
+                            <p><small> My projects</small></p>
+                        </div>
+                        @if (_appSession.RoleName == "Super Administrator" || _appSession.RoleName == "Project Coordinator")
+                        {
+                            <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle" id="btnMyDepartmentDashboard" disabled="disabled">2</a>
+                                <p><small>Faculty/Division Projects</small></p>
+                            </div>
+                        }
+                        @if (_appSession.RoleName == "Super Administrator")
+                        {
+                            <div class="stepwizard-step col-xs-3" style="font-family: Tahoma, sans-serif;">
+                                <a href="#step-3" type="button" id="btnGlobalProjectDashboard" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <p><small>Global Projects </small></p>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <br />
+                <div class="panel panel-default setup-content" id="step-1">
+                    <partial name="_myProjectDashboard" />
+                </div>
+
+                @if (_appSession.RoleName == "Super Administrator" || _appSession.RoleName == "Project Coordinator")
+                {
+                    <div class="panel panel-default setup-content" id="step-2">
+                        <partial name="_departmentDashboard" />
+                    </div>
+                }
+                @if (_appSession.RoleName == "Super Administrator")
+                {
+                    <div class="panel panel-default setup-content" id="step-3">
+                        <partial name="_globalDashboard" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/dist/project/dashboard.js?v=9"></script>
+    <script src="~/js/dist/project/sustainabledevelopmentgoalsookup.js"></script>
+    <script src="~/vendor/select2/select2.js"></script>
+   }

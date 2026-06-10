@@ -1,0 +1,105 @@
+﻿@inject CBE.Web.Helper.Interfaces.IAppSession _appSession
+@using CBE.Web.Helper;
+
+<div id="editUserModalForm" class="modal" tabindex="-1" role="dialog" style="opacity:1 !important;" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <form>
+            @Html.AntiForgeryToken()
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit User</h5>
+                    <button type="button" class="close btn-sm" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="MessageBox"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Username">Name</label>
+                            <input type="text" class="form-control" name="tFullName" id="FullName" placeholder="full name" readonly="">
+                            <input type="hidden" class="form-control" id="hdRoleName" value="@_appSession.RoleName">
+
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="Username">Username</label>
+                            <label id="lblUserId" data-user-id="5"></label>
+                            <input type="text" class="form-control" name="Username" id="Username" placeholder="username" readonly="">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Role</label>
+
+                            @if (_appSession.RoleName == "Super Administrator")
+                            {
+                                <select class="form-control form-control" id="RoleId" name="RoleId" onchange="onRoleEdidUserChange(this)"></select>
+                            }
+                            else
+                            {
+                                <select id="RoleId" class="form-control" disabled>
+                                    <option value="4" selected>Project Driver</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-row dvfaculty">
+                        <div class="form-group col-md-12">
+                            <label for="FacultyDivision">Faculty/Division</label>
+                           
+                            @if (_appSession.RoleName == "Super Administrator")
+                            {
+                                <select id="EditfacultyDivision" class="form-control facultyDivision">
+                                </select>
+                            }
+                            else
+                            {
+                                <select id="EditfacultyDivision" class="form-control" disabled>
+                                    <option value="@_appSession.FacultyId" selected>@_appSession.FacultyName</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-row dvdeprtment">
+                        <div class="form-group col-md-12">
+                            <label for="Department">Department</label>
+                                                     @if (_appSession.RoleName == "Super Administrator")
+                            {
+                                <select id="EditDepartmentUnit" class="form-control DepartmentUnit" aria-expanded="true" required>
+                                </select>
+                            }
+                            else
+                            {
+                                <select id="EditDepartmentUnit" class="form-control" aria-expanded="true" disabled>
+                                    <option value="@_appSession.DepartmentId" selected>@_appSession.DepartmentName</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            @if (_appSession.RoleName == CbeRoles.PROJECTCOORDINATOR)
+                            {
+                                <button class="btn btn-default btn-sm modal-dismiss" onclick="onCancel()" style="background-color: red;" id="btnCancel">Close</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary btn-sm modal-confirm" onclick="onEditUser()" dataFormName="manageuser" style="background-color: #E7540E;">Submit</button>
+                                <button class="btn btn-primary btn-sm modal-dismiss" onclick="onCancel()" style="background-color: red;" id="btnCancel">Cancel</button>
+                            }
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </form>
+    </div>
+</div>
+
