@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿const PROJECT_DURATION_ONCE_OFF = "1";
+const PROJECT_DURATION_ONGOING = "2";
+
+$(document).ready(function () {
 
     $('.btnProjectProgressModal').hide();
 
@@ -338,7 +341,7 @@
             return false;
         }
 
-        if (projectDurationValue == 1)
+        if (projectDurationValue == PROJECT_DURATION_ONCE_OFF)
         {
             if (document.getElementById("ProjectEndDate").value === "" || document.getElementById("ProjectStartDate").value === "yyyy-mm-dd") {
 
@@ -350,7 +353,7 @@
             }
         }
 
-        if (projectDurationValue == 1) {
+        if (projectDurationValue == PROJECT_DURATION_ONCE_OFF) {
             if ((document.getElementById("ProjectStartDate").value > document.getElementById("ProjectEndDate").value)) {
 
                 notify('Project End Date can not be less than the Start Date required', 'alert alert-danger');
@@ -577,7 +580,7 @@
 
 
         let numberofyears = document.getElementById("numberofyears").value;
-        if (projectDurationValue === "2") {
+        if (projectDurationValue === PROJECT_DURATION_ONGOING) {
 
             if (isNaN(document.getElementById("numberofyears").value)) {
 
@@ -623,6 +626,9 @@
         }
 
 
+        normalizeProjectDurationFields(projectDurationValue);
+        numberofyears = document.getElementById("numberofyears").value;
+
         let formData = new FormData;
         e.preventDefault();
 
@@ -634,7 +640,7 @@
             formData.append("files", files[i]);
         }
 
-        if (numberofyears > 0) {
+        if (projectDurationValue === PROJECT_DURATION_ONGOING && numberofyears > 0) {
             $("#bdyProjectProgress").each(function () {
 
                 let $rows = $(this).find('tr'); // Get all rows within the tbody
@@ -780,11 +786,8 @@
         formData.append("SustainableDevelopmentGoalId", $("#SustainableDevelopmentGoals option:selected").val());
         formData.append("ProjectAddress", $("#ProjectActualLocationName").val());
         formData.append("StartDate", $("#ProjectStartDate").val());
-        if (projectDurationValue == "1") {
+        if (projectDurationValue === PROJECT_DURATION_ONCE_OFF) {
             formData.append("EndDate", $("#ProjectEndDate").val());
-        }
-        else {
-            $("#ProjectEndDate").val("");
         }
         formData.append("ProjectTypeId", $("#CEProjectType option:selected").val());
         formData.append("LocationScopeId", $("#ProjectLocation option:selected").val());
@@ -797,7 +800,7 @@
         formData.append("CommunityEngagementUnitId", $("#communityEngagementUnit option:selected").val());
         formData.append("NumberOfVolunteerHoursStaff", $("#NoOfhoursPerStaffVolunteer").val());
         formData.append("NumberOfVolunteerHoursStudent", $("#NoOfhoursPertudentVolunteer").val());
-        formData.append("NumberOfYears", $("#numberofyears").val());
+        formData.append("NumberOfYears", projectDurationValue === PROJECT_DURATION_ONGOING ? $("#numberofyears").val() : "");
         formData.append("IsFlagship", isFlagshipProject);
         formData.append("CampusId", $("#campus option:selected").val());
 
@@ -845,15 +848,25 @@ function onProjectEffortChange(e) {
 function onProjectDurationChange(e) {
     let projectDurationValue = $("#ProjectDuration option:selected").val();
 
-    if (projectDurationValue == 1) {
+    if (projectDurationValue === PROJECT_DURATION_ONCE_OFF) {
         $('.dvNumberofyears').hide();
-        document.getElementById("numberofyears").value = "";
-
         $('.ToggleProjectEndDate').show();
     }
     else {
         $('.dvNumberofyears').show();
         $('.ToggleProjectEndDate').hide();
+    }
+
+    normalizeProjectDurationFields(projectDurationValue);
+}
+
+function normalizeProjectDurationFields(projectDurationValue) {
+    if (projectDurationValue === PROJECT_DURATION_ONCE_OFF) {
+        document.getElementById("numberofyears").value = "";
+        $("#bdyProjectProgress").empty();
+        $('.btnProjectProgressModal').hide();
+    }
+    else if (projectDurationValue === PROJECT_DURATION_ONGOING) {
         document.getElementById("ProjectEndDate").value = "";
     }
 }
@@ -954,14 +967,14 @@ function GetProjectDetails() {
                     document.getElementById('IsProjectIndividualOrGroupEffort').value = response.projectEffortId;
                     document.getElementById('DepartmentResponsibleForProject').value = response.departmentResponsibleId;
                     document.getElementById('ProjectDuration').value = response.projectDurationId;
-                    onProjectDurationChange();
 
 
                     document.getElementById('communityEngagementUnit').value = response.communityEngagementUnitId;
                     document.getElementById('NoOfhoursPerStaffVolunteer').value = response.numberOfVolunteerHoursStaff;
                     document.getElementById('NoOfhoursPertudentVolunteer').value = response.numberOfVolunteerHoursStudent;
-                    document.getElementById('numberofyears').value = response.numberOfYears;
+                    document.getElementById('numberofyears').value = response.projectDurationId == PROJECT_DURATION_ONGOING ? response.numberOfYears : '';
                     document.getElementById('campus').value = response.campusId;
+                    onProjectDurationChange();
 
 
                     if (response.isFlagship) {
@@ -1006,28 +1019,30 @@ function GetProjectDetails() {
                     });
 
                     $("#bdyProjectProgress").empty();
-                    $.each(response.projectProgresses, function (index, item) {
+                    if (response.projectDurationId == PROJECT_DURATION_ONGOING) {
+                        $.each(response.projectProgresses, function (index, item) {
 
-                        $("#bdyProjectProgress").append('<tr>' +
-                            '<td><input name="ProjectProgress[' + index + '].Year" type="text" rows="5" cols="100" value="' + item.year + '" readonly class="form-control year" style="background-color: transparent!important; border: 0!important;">' +
-                            '<input name="ProjectProgress[' + index + '].ProjectProgressId" type="hidden" value="' + item.projectProgressId + '" readonly class="form-control projectProgressId">' +
-                            '<input name="ProjectProgress[' + index + '].GeneralProjectId" type="hidden" value="' + item.generalProjectId + '" readonly class="form-control generalProjectId">' +
+                            $("#bdyProjectProgress").append('<tr>' +
+                                '<td><input name="ProjectProgress[' + index + '].Year" type="text" rows="5" cols="100" value="' + item.year + '" readonly class="form-control year" style="background-color: transparent!important; border: 0!important;">' +
+                                '<input name="ProjectProgress[' + index + '].ProjectProgressId" type="hidden" value="' + item.projectProgressId + '" readonly class="form-control projectProgressId">' +
+                                '<input name="ProjectProgress[' + index + '].GeneralProjectId" type="hidden" value="' + item.generalProjectId + '" readonly class="form-control generalProjectId">' +
 
-                            '</td>'
-                            + '<td><input name="ProjectProgress[' + index + '].ProjectProgressName" type="textarea" rows="5" cols="100" value=" ' + item.projectProgressName + '" class="form-control projectProgressName"></td>' +
-                            '<td class="text-center"><a class="btn btn-lg delete-staff" edu-data-id="1"><i class="la la-trash la-lg text-danger">Remove</i></a></td>' +
+                                '</td>'
+                                + '<td><input name="ProjectProgress[' + index + '].ProjectProgressName" type="textarea" rows="5" cols="100" value=" ' + item.projectProgressName + '" class="form-control projectProgressName"></td>' +
+                                '<td class="text-center"><a class="btn btn-lg delete-staff" edu-data-id="1"><i class="la la-trash la-lg text-danger">Remove</i></a></td>' +
 
-                            '</tr>');
+                                '</tr>');
 
-                    });
+                        });
+                    }
 
 
-                    let numberOfYears = response.numberOfYears;
+                    let numberOfYears = response.projectDurationId == PROJECT_DURATION_ONGOING ? response.numberOfYears : 0;
                     if (numberOfYears > 0) {
                         $('.btnProjectProgressModal').show();
                     }
                     else {
-                        $('.dvNumberofyears').hide();
+                        $('.btnProjectProgressModal').hide();
                     }
 
                     if (response.projectEffortId == 2) {
