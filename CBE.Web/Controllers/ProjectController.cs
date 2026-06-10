@@ -12,6 +12,10 @@ namespace CBE.Web.Controllers
     [Authorize]
     public class ProjectController : Controller
     {
+        private const int OnceOffProjectDurationId = 1;
+        private const int OngoingProjectDurationId = 2;
+        private static readonly DateTime OngoingProjectEndDatePlaceholder = new(9999, 12, 31);
+
         private readonly IRequestSet _requestSet;
         private readonly IAppSession _appSession;
         private readonly IConfiguration _config;
@@ -201,6 +205,8 @@ namespace CBE.Web.Controllers
             if (isValid != string.Empty)
                 return BadRequest(isValid);
 
+            NormalizeProjectDurationFields(model);
+
             if (_appSession.GeneralProjectId == null || _appSession.GeneralProjectId == 0)
                 results = await _requestSet.ExecuteAsJson("project/general/create", HttpVerb.Post, model, _appSession.Token);
 
@@ -211,6 +217,20 @@ namespace CBE.Web.Controllers
             }
 
             return RedirectUpdate<CreateGeneralProjectModel>(results);
+        }
+
+
+        private static void NormalizeProjectDurationFields(CreateGeneralProjectModel model)
+        {
+            if (model.ProjectDurationId == OnceOffProjectDurationId)
+            {
+                model.NumberOfYears = null;
+                model.ProjectProgresses = null;
+            }
+            else if (model.ProjectDurationId == OngoingProjectDurationId)
+            {
+                model.EndDate = OngoingProjectEndDatePlaceholder;
+            }
         }
 
 
